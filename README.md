@@ -95,9 +95,11 @@ slide with larger, lighter typography. Use this structure:
 > Your Name -- Date -- Event
 ```
 
-Any image in the title slide is automatically styled as a logo (capped at
-48px height). The logo is optional -- just omit the image line if you don't
-need one.
+Any image in the title slide is automatically placed on the same line as the
+subtitle, with the logo on the left and subtitle text on the right. The logo
+is capped at 6rem (96px) height and 45% of the content width, so it can be
+quite large without overwhelming the slide. The logo is optional -- just omit
+the image line if you don't need one.
 
 The blockquote line (`> Your Name -- Date`) serves double duty: it appears on
 the title slide as presenter information, and the template automatically
@@ -539,12 +541,11 @@ Add a standard Markdown image to your title slide section in `slides.md`:
 > Your Name -- Date
 ```
 
-Any image in the title slide is automatically styled as a logo: capped at
-3rem (48px) height, displayed as a block element with appropriate spacing.
-No configuration in `index.html` is needed. The logo placement is flexible --
-it can go before the title, between the title and subtitle, or between the
-subtitle and the presenter line. The most common placement is between the
-subtitle and the presenter line, or above the title.
+The template automatically places the logo and subtitle on the same line,
+with the logo on the left and the subtitle on the right. The logo is capped
+at 6rem (96px) height and 45% of the content width, so you can use large,
+detailed logos without any sizing issues. No configuration in `index.html`
+is needed.
 
 To remove the logo, delete the image line from the title slide. To change
 the logo for a different talk, change the image path.
@@ -612,7 +613,7 @@ The template applies these Carbon Design System conventions:
 | Mermaid diagrams     | Carbon token colors for nodes, edges, and backgrounds   |
 | UI Shell nav bar     | Sticky dark header matching Carbon's shell component    |
 | Per-slide footer     | 12px secondary text, auto-generated from title metadata |
-| Title slide logo     | Markdown image in title slide, auto-styled to 48px     |
+| Title slide logo     | Markdown image, inline with subtitle, 96px max height  |
 
 
 ## Customization
@@ -712,7 +713,7 @@ The default content width is `52rem` (832px). To change it, edit the
 | Dark theme           | Theme button in nav bar              | All tokens swap to Gray 100 palette          |
 | PDF export           | PDF button in nav bar                | Print-optimized, one slide per page          |
 | Per-slide footer     | Auto-generated from `> Name -- Date` | 12px secondary text, slide number on right   |
-| Title slide logo     | `![Logo](./images/logo.png)`         | Above deck title, 48px max height            |
+| Title slide logo     | `![Logo](./images/logo.png)`         | Inline with subtitle, 96px max height        |
 
 
 ## Browser Support
