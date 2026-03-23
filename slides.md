@@ -1,9 +1,9 @@
 # Carbon Slides Element Showcase
 ### Every supported Markdown element, rendered with Carbon design tokens
 
-![Logo](https://placehold.co/160x48/0f62fe/ffffff?text=ACME+Corp)
+![Logo](https://www.ibm.com/design/language/877b208e9d05b37650a70e55867861bd/core_gray60_on_white.svg)
 
-> Jim Weaver -- March 2026
+> James L. Weaver -- IBM Quantum -- March 2026
 
 <!-- NOTES: This deck demonstrates every element type the template supports. Use it as a reference when building your own presentations. -->
 
