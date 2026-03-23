@@ -11,19 +11,20 @@
 
 1. Typography and text formatting
 2. Lists and nesting
-3. Blockquotes and callouts
-4. Tables
-5. Code blocks
-6. Images and captions
-7. Mermaid: flowchart
-8. Mermaid: sequence diagram
-9. Mermaid: Gantt chart
-10. Mermaid: pie chart
-11. Mermaid: entity-relationship diagram
-12. Mermaid: state diagram
-13. Mermaid: class diagram
-14. Combining elements
-15. Speaker notes and links
+3. Task lists
+4. Blockquotes and callouts
+5. Tables
+6. Code blocks (with syntax highlighting)
+7. Images and captions
+8. Mermaid: flowchart
+9. Mermaid: sequence diagram
+10. Mermaid: Gantt chart
+11. Mermaid: pie chart
+12. Mermaid: entity-relationship diagram
+13. Mermaid: state diagram
+14. Mermaid: class diagram
+15. Combining elements
+16. Speaker notes and links
 
 ---
 
@@ -113,6 +114,27 @@ You can nest ordered lists inside unordered lists and vice versa:
 
 ---
 
+## Task Lists
+
+Task lists use checkbox syntax to track completion. Checked items get a filled Carbon blue checkbox, unchecked items get an empty bordered box.
+
+- [x] Define project scope
+- [x] Assemble the team
+- [x] Complete discovery phase
+- [ ] Build the prototype
+- [ ] Run user testing
+- [ ] Launch to production
+
+### Sprint status with context
+
+- [x] API authentication endpoint -- merged Monday
+- [x] Database migration scripts -- passed review
+- [ ] Front-end dashboard -- in progress, 70% complete
+- [ ] Load testing -- blocked on staging environment
+- [ ] Documentation -- not started
+
+---
+
 ## Blockquotes as Callouts
 
 Blockquotes are styled as Carbon callout boxes with a blue left border and gray background.
@@ -174,7 +196,7 @@ Use tables as a two-column layout for side-by-side comparisons:
 
 ## Code Blocks: Python
 
-Fenced code blocks render in IBM Plex Mono on a gray background.
+Fenced code blocks render in IBM Plex Mono with syntax highlighting. Colors are mapped to Carbon's palette: blue for numbers and constants, green for strings, red for keywords, and gray for comments.
 
 ```python
 def calculate_retention(cohort_data: dict) -> float:
@@ -577,11 +599,13 @@ You can verify this by viewing the raw `slides.md` file -- the notes are there b
 | Bold                   | `**text**`                           | Semibold 600 (not 700)                      |
 | Italic                 | `*text*`                             | Standard italic                             |
 | Inline code            | `` `code` ``                         | IBM Plex Mono, gray background              |
-| Code block             | Triple backtick with lang            | Plex Mono, layer-01 background              |
+| Code block             | Triple backtick with lang            | Plex Mono, Carbon-themed syntax colors      |
 | Blockquote             | `> text`                             | Blue left border, gray fill                 |
 | Unordered list         | `- item`                             | Standard bullets, Carbon spacing            |
 | Ordered list           | `1. item`                            | Numbered, Carbon spacing                    |
 | Nested list            | Indented `- item`                    | Up to 3 levels supported                    |
+| Task list (unchecked)  | `- [ ] item`                         | Carbon-styled empty checkbox                |
+| Task list (checked)    | `- [x] item`                         | Filled blue checkbox with checkmark         |
 | Table                  | Pipe-delimited                       | Carbon data table with hover rows           |
 | Image                  | `![alt](path)`                       | Max-width 100%, centered                    |
 | Image caption          | `*Caption*` after image              | Smaller size, secondary color               |
