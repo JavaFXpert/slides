@@ -190,8 +190,61 @@
     }
 
     @media print {
-      .nav-bar { display: none; }
-      .slide { page-break-inside: avoid; }
+      /* Hide UI chrome */
+      .nav-bar, .footer { display: none !important; }
+
+      /* Reset container for print */
+      .slides-container {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Each slide becomes its own page */
+      .slide {
+        page-break-after: always;
+        page-break-inside: avoid;
+        border-bottom: none;
+        padding: 0.75in 0 0 0;
+        min-height: auto;
+      }
+
+      .slide:last-child {
+        page-break-after: auto;
+      }
+
+      /* Ensure images, tables, code blocks don't split across pages */
+      .slide img, .slide table, .slide pre,
+      .slide .mermaid-diagram, .slide blockquote {
+        page-break-inside: avoid;
+      }
+
+      /* Force light theme colors for print regardless of screen theme */
+      :root, html.dark-theme {
+        --cds-background:      #ffffff;
+        --cds-layer-01:        #f4f4f4;
+        --cds-layer-02:        #e0e0e0;
+        --cds-border-subtle:   #e0e0e0;
+        --cds-border-strong:   #8d8d8d;
+        --cds-text-primary:    #161616;
+        --cds-text-secondary:  #525252;
+        --cds-interactive:     #0f62fe;
+        --cds-link-primary:    #0f62fe;
+      }
+
+      /* Print-friendly link display: show URL after link text */
+      .slide a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.75rem;
+        color: #525252;
+        word-break: break-all;
+      }
+
+      /* Mermaid SVGs: ensure they print and fit */
+      .slide .mermaid-diagram svg {
+        max-width: 100% !important;
+        height: auto !important;
+      }
     }
     @media (max-width: 672px) {
       .slide h2 { font-size: var(--cds-heading-04-size); }
@@ -206,6 +259,7 @@
     <div class="nav-bar-controls">
       <span class="slide-counter" id="slideCounter"></span>
       <button onclick="toggleTheme()">Theme</button>
+      <button onclick="exportPDF()" title="Export to PDF">PDF</button>
     </div>
   </nav>
 
@@ -223,6 +277,19 @@
 
   <script>
     var SLIDES_FILE = 'slides.md';
+
+    // PDF export via browser print dialog
+    function exportPDF() {
+      // If in dark theme, temporarily swap to light for printing
+      var wasDark = document.documentElement.classList.contains('dark-theme');
+      if (wasDark) {
+        document.documentElement.classList.remove('dark-theme');
+      }
+      window.print();
+      if (wasDark) {
+        document.documentElement.classList.add('dark-theme');
+      }
+    }
 
     // Carbon-to-Mermaid color mapping
     // Mermaid's 'base' theme lets us override every color via themeVariables.
