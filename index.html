@@ -224,17 +224,111 @@
   <script>
     var SLIDES_FILE = 'slides.md';
 
+    // Carbon-to-Mermaid color mapping
+    // Mermaid's 'base' theme lets us override every color via themeVariables.
+    // We map Carbon's token values directly so diagrams match the page.
+    var MERMAID_LIGHT = {
+      theme: 'base',
+      themeVariables: {
+        // Node fills and borders (Carbon neutral gray)
+        primaryColor:       '#e0e0e0', // cds-layer-02: default node fill
+        primaryBorderColor: '#8d8d8d', // cds-border-strong: node borders
+        primaryTextColor:   '#161616', // cds-text-primary: text in nodes
+
+        // Secondary nodes (Carbon Blue family for accents)
+        secondaryColor:       '#d0e2ff', // Blue 20: secondary node fill
+        secondaryBorderColor: '#0f62fe', // Blue 60 (cds-interactive)
+        secondaryTextColor:   '#161616',
+
+        // Tertiary / subgraph backgrounds
+        tertiaryColor:       '#f4f4f4', // cds-layer-01
+        tertiaryBorderColor: '#e0e0e0', // cds-border-subtle
+        tertiaryTextColor:   '#161616',
+
+        // Connectors and labels
+        lineColor:            '#525252', // cds-text-secondary: arrows
+        textColor:            '#161616', // general labels
+        edgeLabelBackground:  '#ffffff', // cds-background
+
+        // Subgraph (cluster) styling
+        clusterBkg:    '#f4f4f4', // cds-layer-01
+        clusterBorder: '#e0e0e0', // cds-border-subtle
+
+        // Gantt chart
+        gridColor:       '#e0e0e0',
+        doneTaskBkgColor:'#a6c8ff', // Blue 30
+        doneTaskBorderColor: '#0f62fe',
+        activeTaskBkgColor:  '#d0e2ff', // Blue 20
+        activeTaskBorderColor:'#0f62fe',
+        critBkgColor:    '#fff1f1', // Red 10
+        critBorderColor: '#da1e28', // cds-support-error
+        taskTextColor:   '#161616',
+        sectionBkgColor: '#f4f4f4',
+        altSectionBkgColor: '#e0e0e0',
+        sectionBkgColor2: '#f4f4f4',
+
+        // Fonts
+        fontFamily: 'IBM Plex Sans, Helvetica Neue, Arial, sans-serif',
+        fontSize: '14px'
+      }
+    };
+
+    var MERMAID_DARK = {
+      theme: 'base',
+      themeVariables: {
+        primaryColor:       '#393939', // cds-layer-02 dark
+        primaryBorderColor: '#6f6f6f', // cds-border-strong dark
+        primaryTextColor:   '#f4f4f4', // cds-text-primary dark
+
+        secondaryColor:       '#002d9c', // Blue 80
+        secondaryBorderColor: '#4589ff', // cds-interactive dark
+        secondaryTextColor:   '#f4f4f4',
+
+        tertiaryColor:       '#262626', // cds-layer-01 dark
+        tertiaryBorderColor: '#393939',
+        tertiaryTextColor:   '#f4f4f4',
+
+        lineColor:            '#c6c6c6', // cds-text-secondary dark
+        textColor:            '#f4f4f4',
+        edgeLabelBackground:  '#161616', // cds-background dark
+
+        clusterBkg:    '#262626',
+        clusterBorder: '#393939',
+
+        gridColor:       '#393939',
+        doneTaskBkgColor:'#0043ce', // Blue 70
+        doneTaskBorderColor: '#4589ff',
+        activeTaskBkgColor:  '#002d9c',
+        activeTaskBorderColor:'#4589ff',
+        critBkgColor:    '#520408',
+        critBorderColor: '#fa4d56',
+        taskTextColor:   '#f4f4f4',
+        sectionBkgColor: '#262626',
+        altSectionBkgColor: '#393939',
+        sectionBkgColor2: '#262626',
+
+        fontFamily: 'IBM Plex Sans, Helvetica Neue, Arial, sans-serif',
+        fontSize: '14px'
+      }
+    };
+
+    function getMermaidConfig(isDark) {
+      var vars = isDark ? MERMAID_DARK : MERMAID_LIGHT;
+      return {
+        startOnLoad: false,
+        securityLevel: 'loose',
+        theme: vars.theme,
+        themeVariables: vars.themeVariables,
+        flowchart: { curve: 'monotoneX' }
+      };
+    }
+
     function toggleTheme() {
       document.documentElement.classList.toggle('dark-theme');
       if (typeof mermaid !== 'undefined') {
         var isDark = document.documentElement.classList.contains('dark-theme');
         try {
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: isDark ? 'dark' : 'neutral',
-            fontFamily: 'IBM Plex Sans, Helvetica Neue, Arial, sans-serif',
-            securityLevel: 'loose'
-          });
+          mermaid.initialize(getMermaidConfig(isDark));
         } catch(e) {}
         renderMermaid();
       }
@@ -341,12 +435,9 @@
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js';
       script.onload = function() {
         try {
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: 'neutral',
-            fontFamily: 'IBM Plex Sans, Helvetica Neue, Arial, sans-serif',
-            securityLevel: 'loose'
-          });
+          mermaid.initialize(getMermaidConfig(
+            document.documentElement.classList.contains('dark-theme')
+          ));
           renderMermaid();
         } catch(e) {
           console.warn('Mermaid setup failed:', e);
