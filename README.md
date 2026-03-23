@@ -16,7 +16,9 @@ slides.md   -->   index.html   -->   GitHub Pages
 
 1. **Clone or fork this repo.**
 
-2. **Edit `slides.md`** with your own content.
+2. **Edit `slides.md`** with your own content. To add a logo, place an image
+   file in `./images/` and add `![Logo](./images/logo.png)` to the title
+   slide section. Everything is configured in this one file.
 
 3. **Enable GitHub Pages** in your repo settings:
    - Go to **Settings > Pages**
@@ -36,6 +38,7 @@ your-repo/
   index.html      # Rendering template (rarely needs editing)
   slides.md       # Your slides (edit this for every talk)
   images/         # Any images referenced in your slides
+    logo.png      # Company or project logo (shown on title slide)
     chart.png
     photo.jpg
   README.md       # This file
@@ -53,6 +56,8 @@ your GitHub Pages URL, it:
 4. Applies Carbon Design System styling via CSS custom properties
 5. Renders Mermaid diagram blocks into inline SVGs
 6. Applies syntax highlighting to fenced code blocks using Prism.js
+7. Extracts the title slide blockquote to generate a per-slide footer
+8. Inserts the logo on the title slide (if configured)
 
 The result is a vertically scrolling page where each slide section is visually
 separated, typeset in IBM Plex fonts, and styled with Carbon's color tokens,
@@ -85,8 +90,23 @@ slide with larger, lighter typography. Use this structure:
 # Your Deck Title
 ### A subtitle or one-liner
 
+![Logo](./images/logo.png)
+
 > Your Name -- Date -- Event
 ```
+
+Any image in the title slide is automatically styled as a logo (capped at
+48px height). The logo is optional -- just omit the image line if you don't
+need one.
+
+The blockquote line (`> Your Name -- Date`) serves double duty: it appears on
+the title slide as presenter information, and the template automatically
+extracts it to generate a consistent footer on every subsequent slide. Whatever
+you write in this line is what appears in the footer, verbatim. If you change
+the presenter, date, or event name, the footer updates everywhere
+automatically.
+
+If you omit the blockquote, no footer is generated and slides render without one.
 
 ### Slide titles
 
@@ -480,6 +500,58 @@ classDiagram
 
 ## Features
 
+### Per-slide footer
+
+The template automatically generates a footer on every slide except the title
+slide. The footer text is pulled directly from the blockquote on your title
+slide (the `> Your Name -- Date` line), so there is nothing extra to configure
+in the Markdown. The left side shows the footer text and the right side shows
+the slide number (e.g., "5 / 28").
+
+The footer uses 12px secondary-colored text with a subtle top border, keeping
+it visually quiet so it never competes with slide content. It renders in PDF
+exports and stays attached to its slide across page breaks.
+
+To change the footer content, edit the blockquote on your title slide:
+
+```markdown
+> Jim Weaver -- March 2026
+```
+
+or with more context:
+
+```markdown
+> Jim Weaver -- March 2026 -- Acme Corp Internal
+```
+
+To remove footers entirely, delete the blockquote from the title slide.
+
+### Title slide logo
+
+Add a standard Markdown image to your title slide section in `slides.md`:
+
+```markdown
+# Your Deck Title
+### Subtitle
+
+![Logo](./images/logo.png)
+
+> Your Name -- Date
+```
+
+Any image in the title slide is automatically styled as a logo: capped at
+3rem (48px) height, displayed as a block element with appropriate spacing.
+No configuration in `index.html` is needed. The logo placement is flexible --
+it can go before the title, between the title and subtitle, or between the
+subtitle and the presenter line. The most common placement is between the
+subtitle and the presenter line, or above the title.
+
+To remove the logo, delete the image line from the title slide. To change
+the logo for a different talk, change the image path.
+
+Supported image formats include PNG, SVG, JPG, and GIF. SVG is recommended
+for logos because it stays sharp at any display resolution and in PDF exports.
+
 ### Dark / light theme toggle
 
 Click the **Theme** button in the navigation bar to switch between Carbon's
@@ -539,6 +611,8 @@ The template applies these Carbon Design System conventions:
 | Task lists           | Carbon checkbox styling (blue fill, white checkmark)    |
 | Mermaid diagrams     | Carbon token colors for nodes, edges, and backgrounds   |
 | UI Shell nav bar     | Sticky dark header matching Carbon's shell component    |
+| Per-slide footer     | 12px secondary text, auto-generated from title metadata |
+| Title slide logo     | Markdown image in title slide, auto-styled to 48px     |
 
 
 ## Customization
@@ -550,6 +624,29 @@ Edit the `SLIDES_FILE` variable near the top of the `<script>` in `index.html`:
 ```javascript
 var SLIDES_FILE = 'my-other-talk.md';
 ```
+
+### Changing the logo
+
+Edit the image line in the title slide section of `slides.md`:
+
+```markdown
+![Logo](./images/my-company-logo.svg)
+```
+
+To remove the logo, delete the image line. Everything is in the Markdown --
+no changes to `index.html` are needed.
+
+### Changing the footer
+
+The footer is controlled entirely by the blockquote on your title slide. Edit
+that line in `slides.md`:
+
+```markdown
+> Jane Smith -- Q4 2026 -- Board Presentation
+```
+
+The full text of that line appears in the footer of every slide. To remove
+footers, delete the blockquote from the title slide.
 
 ### Defaulting to dark theme
 
@@ -614,6 +711,8 @@ The default content width is `52rem` (832px). To change it, edit the
 | Class diagram        | ` ```mermaid classDiagram ... ``` `  | Carbon fills and border styling              |
 | Dark theme           | Theme button in nav bar              | All tokens swap to Gray 100 palette          |
 | PDF export           | PDF button in nav bar                | Print-optimized, one slide per page          |
+| Per-slide footer     | Auto-generated from `> Name -- Date` | 12px secondary text, slide number on right   |
+| Title slide logo     | `![Logo](./images/logo.png)`         | Above deck title, 48px max height            |
 
 
 ## Browser Support

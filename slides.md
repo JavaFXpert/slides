@@ -1,6 +1,8 @@
 # Carbon Slides Element Showcase
 ### Every supported Markdown element, rendered with Carbon design tokens
 
+![Logo](https://placehold.co/160x48/0f62fe/ffffff?text=ACME+Corp)
+
 > Jim Weaver -- March 2026
 
 <!-- NOTES: This deck demonstrates every element type the template supports. Use it as a reference when building your own presentations. -->
